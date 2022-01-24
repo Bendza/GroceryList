@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import com.example.todo.Adapter.ToDoAdapter;
 import com.example.todo.Model.ToDoModel;
@@ -22,7 +25,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity implements DialogCloseListener {
 
     private ToDoAdapter taskAdapter;
-
+    private CheckBox checkbox;
     private List<ToDoModel> taskList;
     private DataBaseHandler db;
 
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Objects.requireNonNull(getSupportActionBar()).hide();
+
+        checkbox = (CheckBox)findViewById(R.id.todoCheckBox);
 
         db = new DataBaseHandler(this);
         db.openDatabase();

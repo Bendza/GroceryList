@@ -1,7 +1,7 @@
 package com.example.todo.Model;
 
 public class ToDoModel {
-    private int id, status;
+    private int id, status, price;
     private String task;
 
     public int getId() {
@@ -27,4 +27,8 @@ public class ToDoModel {
     public void setTask(String task) {
         this.task = task;
     }
+
+    public int getPrice() {return price;}
+
+    public void setPrice(int price) {this.price = price;}
 }

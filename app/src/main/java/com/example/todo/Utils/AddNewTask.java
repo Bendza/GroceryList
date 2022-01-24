@@ -24,9 +24,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 public class AddNewTask extends BottomSheetDialogFragment {
 
     public static final String TAG = "ActionBottomDialog";
-    private EditText newTaskText;
+    private EditText newTaskText , newTaskPrice;
     private Button newTaskSaveButton;
     private DataBaseHandler db;
+
 
     public static AddNewTask newInstance(){
         return new AddNewTask();
@@ -50,6 +51,7 @@ public class AddNewTask extends BottomSheetDialogFragment {
         super.onViewCreated(view, savedInstanceState);
         newTaskText = getView().findViewById(R.id.newTaskText);
         newTaskSaveButton = getView().findViewById(R.id.newTaskButton);
+        newTaskPrice = getView().findViewById(R.id.newTaskPrice);
 
         db = new DataBaseHandler(getActivity());
         db.openDatabase();
@@ -59,7 +61,10 @@ public class AddNewTask extends BottomSheetDialogFragment {
         if(bundle != null){
             isUpdate = true;
             String task = bundle.getString("task");
+            int price = bundle.getInt("price");
+
             newTaskText.setText(task);
+            newTaskPrice.setText(String.valueOf(price));
             if(task.length() > 0)
                 newTaskSaveButton.setTextColor(ContextCompat.getColor(getContext(),R.color.colorPrimary));
         }
@@ -90,13 +95,22 @@ public class AddNewTask extends BottomSheetDialogFragment {
         boolean finalIsUpdate = isUpdate;
         newTaskSaveButton.setOnClickListener(v -> {
             String text = newTaskText.getText().toString();
+            int price = 0;
+            try {
+                price = Integer.parseInt(newTaskPrice.getText().toString());
+            }   catch (NumberFormatException nfe)
+            {
+                System.out.println("Could not parse " + nfe);
+            }
+
             if(finalIsUpdate){
-                db.updateTask(bundle.getInt("id"), text);
+                db.updateTask(bundle.getInt("id"), text, price);
             }
             else{
                 ToDoModel task = new ToDoModel();
                 task.setTask(text);
                 task.setStatus(0);
+                task.setPrice(price);
                 db.insertTask(task);
             }
             dismiss();

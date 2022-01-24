@@ -16,9 +16,9 @@
             android:id="@+id/todoCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tool:text="Ovo je jedan task."
-            android:paddingStart="10dp"
             android:buttonTint="@android:color/holo_blue_dark"
-            android:checked="true"/>
+            android:checked="true"
+            android:paddingStart="10dp"
+            tool:text="Ovo je jedan task." />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

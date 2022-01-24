@@ -18,8 +18,9 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     private static final String ID = "id";
     private static final String TASK = "task";
     private static final String STATUS = "status";
+    private static final String PRICE = "price";
     private static final String CREATE_TODO_TABLE = "CREATE TABLE IF NOT EXISTS " + TODO_TABLE + "(" + ID  + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                                                    + TASK + " TEXT, " + STATUS + " INTEGER)";
+                                                    + TASK + " TEXT, " + STATUS + " INTEGER, " + PRICE + " INTEGER)";
     private SQLiteDatabase db;
 
     public DataBaseHandler(Context context){
@@ -45,6 +46,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(TASK, task.getTask());
         cv.put(STATUS, 0);
+        cv.put(PRICE, task.getPrice());
         db.insert(TODO_TABLE, null, cv);
     }
 
@@ -61,6 +63,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                             task.setId(cur.getInt((cur.getColumnIndex(ID))));
                             task.setTask(cur.getString((cur.getColumnIndex(TASK))));
                             task.setStatus(cur.getInt((cur.getColumnIndex(STATUS))));
+                            task.setPrice((cur.getInt((cur.getColumnIndex(PRICE)))));
                             taskList.add(task);
                         }while(cur.moveToNext());
                     }
@@ -78,9 +81,10 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         db.update(TODO_TABLE, cv, ID + "=?", new String[]{String.valueOf(id)});
     }
 
-    public void updateTask(int id, String task){
+    public void updateTask(int id, String task, int price){
         ContentValues cv = new ContentValues();
         cv.put(TASK, task);
+        cv.put(PRICE, price);
         db.update(TODO_TABLE, cv, ID + "=?", new String[]{String.valueOf(id)});
     }
 
